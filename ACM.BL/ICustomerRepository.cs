@@ -11,6 +11,9 @@ namespace CMS.BusinessLayer
 
         IList<Customer> GetAll();
 
-        bool Save(Customer customer);
+        /// <summary>
+        /// Stores a customer and returns its assigned identifier.
+        /// </summary>
+        int Save(Customer customer);
     }
 }

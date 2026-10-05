@@ -7,6 +7,9 @@ namespace CMS.BusinessLayer
     {
         OrderItem GetById(int orderItemId);
 
-        bool Save(OrderItem orderItem);
+        /// <summary>
+        /// Stores an order item and returns its assigned identifier.
+        /// </summary>
+        int Save(OrderItem orderItem);
     }
 }

@@ -7,6 +7,9 @@ namespace CMS.BusinessLayer
     {
         Product GetById(int productId);
 
-        bool Save(Product product);
+        /// <summary>
+        /// Stores a product and returns its assigned identifier.
+        /// </summary>
+        int Save(Product product);
     }
 }
