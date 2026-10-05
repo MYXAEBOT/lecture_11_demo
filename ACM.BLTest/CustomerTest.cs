@@ -56,36 +56,6 @@ namespace CMS.BusinessLayerTest
         }
         
         [TestMethod]
-        public void IntegerTypeTest()
-        {
-            //-- Arrange
-            int i1;
-            i1 = 42;
-
-            //-- Act
-            int i2 = i1;
-            i2 = 2;
-
-            //-- Assert
-            Assert.AreEqual(42, i1);
-        }
-
-        [TestMethod]
-        public void ObjectTypeTest()
-        {
-            //-- Arrange
-            var c1 = new Customer();
-            c1.FirstName = "Bilbo";
-
-            //-- Act
-            var c2 = c1;
-            c2.FirstName = "Frodo";
-
-            //-- Assert
-            Assert.AreEqual("Frodo", c1.FirstName);
-        }
-
-        [TestMethod]
         public void ValidateValid()
         {
             //-- Arrange

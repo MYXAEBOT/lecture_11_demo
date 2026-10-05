@@ -33,6 +33,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InMemoryStore.cs" />
     <Compile Include="InMemoryCustomerRepository.cs" />
     <Compile Include="InMemoryOrderItemRepository.cs" />
     <Compile Include="InMemoryOrderRepository.cs" />

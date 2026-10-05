@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using CMS.BusinessLayer;
 
@@ -9,38 +8,22 @@ namespace CMS.DataAccess
     /// </summary>
     public class InMemoryCustomerRepository : ICustomerRepository
     {
-        private readonly Dictionary<int, Customer> _customers = new Dictionary<int, Customer>();
-        private int _nextId = 1;
+        private readonly InMemoryStore<Customer> _store =
+            new InMemoryStore<Customer>(customer => customer.CustomerId, Copy);
 
         public Customer GetById(int customerId)
         {
-            Customer customer;
-            return _customers.TryGetValue(customerId, out customer) ? Copy(customer) : null;
+            return _store.GetById(customerId);
         }
 
         public IList<Customer> GetAll()
         {
-            var customers = new List<Customer>();
-            foreach (var customer in _customers.Values)
-            {
-                customers.Add(Copy(customer));
-            }
-            return customers;
+            return _store.GetAll();
         }
 
         public int Save(Customer customer)
         {
-            if (customer == null) throw new ArgumentNullException("customer");
-
-            var customerId = customer.CustomerId > 0 ? customer.CustomerId : _nextId;
-            _customers[customerId] = Copy(customer, customerId);
-            if (customerId >= _nextId) _nextId = customerId + 1;
-            return customerId;
-        }
-
-        private static Customer Copy(Customer customer)
-        {
-            return Copy(customer, customer.CustomerId);
+            return _store.Save(customer);
         }
 
         private static Customer Copy(Customer customer, int customerId)
@@ -49,7 +32,24 @@ namespace CMS.DataAccess
             {
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
-                EmailAddress = customer.EmailAddress
+                EmailAddress = customer.EmailAddress,
+                HomeAddress = Copy(customer.HomeAddress),
+                WorkAddress = Copy(customer.WorkAddress)
+            };
+        }
+
+        private static Address Copy(Address address)
+        {
+            if (address == null) return null;
+
+            return new Address
+            {
+                StreetLine1 = address.StreetLine1,
+                StreetLine2 = address.StreetLine2,
+                City = address.City,
+                StateOrProvince = address.StateOrProvince,
+                PostalCode = address.PostalCode,
+                Country = address.Country
             };
         }
     }

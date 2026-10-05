@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using CMS.BusinessLayer;
 
 namespace CMS.DataAccess
@@ -9,33 +7,42 @@ namespace CMS.DataAccess
     /// </summary>
     public class InMemoryOrderRepository : IOrderRepository
     {
-        private readonly Dictionary<int, Order> _orders = new Dictionary<int, Order>();
-        private int _nextId = 1;
+        private readonly InMemoryStore<Order> _store =
+            new InMemoryStore<Order>(order => order.OrderId, Copy);
 
         public Order GetById(int orderId)
         {
-            Order order;
-            return _orders.TryGetValue(orderId, out order) ? Copy(order) : null;
+            return _store.GetById(orderId);
         }
 
         public int Save(Order order)
         {
-            if (order == null) throw new ArgumentNullException("order");
-
-            var orderId = order.OrderId > 0 ? order.OrderId : _nextId;
-            _orders[orderId] = Copy(order, orderId);
-            if (orderId >= _nextId) _nextId = orderId + 1;
-            return orderId;
-        }
-
-        private static Order Copy(Order order)
-        {
-            return Copy(order, order.OrderId);
+            return _store.Save(order);
         }
 
         private static Order Copy(Order order, int orderId)
         {
-            return new Order(orderId) { OrderDate = order.OrderDate };
+            return new Order(orderId)
+            {
+                CustomerId = order.CustomerId,
+                OrderDate = order.OrderDate,
+                ShippingAddress = Copy(order.ShippingAddress)
+            };
+        }
+
+        private static Address Copy(Address address)
+        {
+            if (address == null) return null;
+
+            return new Address
+            {
+                StreetLine1 = address.StreetLine1,
+                StreetLine2 = address.StreetLine2,
+                City = address.City,
+                StateOrProvince = address.StateOrProvince,
+                PostalCode = address.PostalCode,
+                Country = address.Country
+            };
         }
     }
 }

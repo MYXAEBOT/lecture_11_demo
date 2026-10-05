@@ -11,7 +11,9 @@ namespace CMS.BusinessLayer
         {
             this.OrderId = orderId;
         }
+        public int CustomerId { get; set; }
         public DateTimeOffset? OrderDate { get; set; }
+        public Address ShippingAddress { get; set; }
         public int OrderId { get; private set; }
 
         /// <summary>

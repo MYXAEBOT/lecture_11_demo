@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using CMS.BusinessLayer;
 
 namespace CMS.DataAccess
@@ -9,28 +7,17 @@ namespace CMS.DataAccess
     /// </summary>
     public class InMemoryProductRepository : IProductRepository
     {
-        private readonly Dictionary<int, Product> _products = new Dictionary<int, Product>();
-        private int _nextId = 1;
+        private readonly InMemoryStore<Product> _store =
+            new InMemoryStore<Product>(product => product.ProductId, Copy);
 
         public Product GetById(int productId)
         {
-            Product product;
-            return _products.TryGetValue(productId, out product) ? Copy(product) : null;
+            return _store.GetById(productId);
         }
 
         public int Save(Product product)
         {
-            if (product == null) throw new ArgumentNullException("product");
-
-            var productId = product.ProductId > 0 ? product.ProductId : _nextId;
-            _products[productId] = Copy(product, productId);
-            if (productId >= _nextId) _nextId = productId + 1;
-            return productId;
-        }
-
-        private static Product Copy(Product product)
-        {
-            return Copy(product, product.ProductId);
+            return _store.Save(product);
         }
 
         private static Product Copy(Product product, int productId)

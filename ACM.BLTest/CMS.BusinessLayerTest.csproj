@@ -51,12 +51,17 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CustomerTest.cs" />
+    <Compile Include="InMemoryRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ACM.BL\CMS.BusinessLayer.csproj">
       <Project>{a0cb066c-7781-4744-8e15-a68b4223aa53}</Project>
       <Name>CMS.BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ACM.DAL\CMS.DataAccess.csproj">
+      <Project>{E7BF2B27-5B8E-462F-AC3B-7AC3AE90533C}</Project>
+      <Name>CMS.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

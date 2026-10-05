@@ -14,6 +14,8 @@ namespace CMS.BusinessLayer
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string EmailAddress { get; set; }
+        public Address HomeAddress { get; set; }
+        public Address WorkAddress { get; set; }
         public int CustomerId { get; private set; }
         public string FullName
         {
